@@ -6,10 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.momentum.learnjetpack.ui.theme.LearnJetpackTheme
+import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
@@ -31,51 +31,42 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            //--lesson 6 -- part 1 --
-//            Column(Modifier.fillMaxSize()) {
-//                val color = remember { mutableStateOf(Color.Red) }
-//                ColorBox(modifier = Modifier.weight(1f).fillMaxSize())
-//                Box(modifier = Modifier.background(color.value).weight(1f).fillMaxSize())
-//            }
-            //--lesson 6 -- part 1 --
-
-
-            //--lesson 6 -- part 2 --
-            Column(Modifier.fillMaxSize()) {
-                val color = remember { mutableStateOf(Color.Yellow) }
-                ColorBox2(modifier = Modifier.weight(1f).fillMaxSize()){
-                    color.value = it
-                }
-                Box(modifier = Modifier.background(color.value).weight(1f).fillMaxSize())
+            val scaffoldState = rememberScaffoldState()
+            var textFieldState by remember {
+                mutableStateOf("")
             }
-            //--lesson 6 -- part 2 --
+            val scope = rememberCoroutineScope()
+            Scaffold(modifier = Modifier.fillMaxWidth(), scaffoldState = scaffoldState) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)) {
+                    TextField(
+                        value = textFieldState,
+                        label = {
+                            Text(text = "Enter your name")
+                        },
+                        onValueChange = {
+                            textFieldState = it
+                        },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(onClick = {
+                        scope.launch {
+                            if (textFieldState.isEmpty()){
+                                scaffoldState.snackbarHostState.showSnackbar("Ekteb esmak ya 3m elnas", "3enya", SnackbarDuration.Short)
+                            } else {
+                                scaffoldState.snackbarHostState.showSnackbar("Ezayak ya $textFieldState", "Tmam", SnackbarDuration.Short)
+                            }
+                        }
+                    }) {
+                        Text(text = "Doos hena")
+                    }
+                }
+            }
 
         }
     }
 }
-
-//--lesson 6 -- part 1 --
-@Composable
-fun ColorBox(modifier: Modifier = Modifier){
-    val color = remember { mutableStateOf(Color.Yellow) }
-    Box(modifier = modifier.background(color.value).clickable {
-        color.value = Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat(), 1f)
-    })
-}
-//--lesson 6 -- part 1 --
-
-
-//--lesson 6 -- part 2 --
-@Composable
-fun ColorBox2(modifier: Modifier = Modifier, updateColor : (Color) -> Unit){
-    Box(modifier = modifier.background(Color.Red).clickable {
-        updateColor(Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat(), 1f))
-    })
-}
-//--lesson 6 -- part 2 --
-
-
-
-
 
