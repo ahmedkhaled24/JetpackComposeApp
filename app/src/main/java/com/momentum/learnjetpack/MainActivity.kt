@@ -7,6 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +22,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,43 +37,58 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+//            val scrollState = rememberScrollState()
+//            Column(
+//                modifier = Modifier.verticalScroll(scrollState)
+//            ) {
+//                for (i in 1..50) {
+//                    Text(
+//                        text = "Item $i",
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        textAlign = TextAlign.Center,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(vertical = 24.dp)
+//                    )
+//                }
+//            }
 
-            val scaffoldState = rememberScaffoldState()
-            var textFieldState by remember {
-                mutableStateOf("")
-            }
-            val scope = rememberCoroutineScope()
-            Scaffold(modifier = Modifier.fillMaxWidth(), scaffoldState = scaffoldState) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 30.dp))
-                {
-                    TextField(
-                        value = textFieldState,
-                        label = { Text(text = "Enter your name") },
-                        onValueChange = { textFieldState = it },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
+
+            //-------------
+//            LazyColumn{
+//                items(20){
+//                    Text(
+//                        text = "Item ${it+1}",
+//                        fontSize = 24.sp,
+//                        fontWeight = FontWeight.Bold,
+//                        textAlign = TextAlign.Center,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(vertical = 24.dp)
+//                    )
+//                }
+//            }
+            //-------------
+
+
+            //************
+            LazyColumn{
+                itemsIndexed(listOf("this", "is", "jetpack", "compose")){
+                        index, string ->
+                    Text(
+                        text = "$string ${index+1}",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 24.dp)
                     )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(colors = ButtonDefaults.buttonColors(backgroundColor = Color.Yellow), onClick = {
-                        scope.launch {
-                            if (textFieldState.isEmpty()){
-                                scaffoldState.snackbarHostState.showSnackbar("Ekteb esmak ya 3m elnas", "3enya", SnackbarDuration.Short)
-                            } else {
-                                scaffoldState.snackbarHostState.showSnackbar("Ezayak ya $textFieldState", "Tmam", SnackbarDuration.Short)
-                            }
-                        }
-                    }) {
-                        Text(text = "Doos hena", color = Color.Blue, fontSize = 20.sp )
-                    }
                 }
             }
+            //************
+
 
         }
     }
