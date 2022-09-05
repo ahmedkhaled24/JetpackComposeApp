@@ -36,28 +36,50 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Box(modifier = Modifier.fillMaxSize().background(Color(0xFF101010))) {
 
-                Text(text = buildAnnotatedString() {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(color = Color.Gray)) {
+                Text(text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Color.Green, fontSize = 50.sp)){
-                        append("J")
+                        append("A")
                     }
 
-                    append("etpack ")
+                    append("hme")
 
-                    withStyle(style = SpanStyle(color = Color.Green, fontSize = 50.sp)){
-                        append("C")
+                    withStyle(style = SpanStyle(color = Color.Blue, fontSize = 50.sp)){
+                        append("d")
                     }
-
-                    append("ompose")
-                },
-                color = Color.White,
-                fontSize = 30.sp,
-                textDecoration = TextDecoration.Underline)
+                }, color = Color.White, fontSize = 40.sp)
             }
+
+
+//            Box(modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color(0xFF101010))) {
+//
+//                Text(text = buildAnnotatedString() {
+//                    withStyle(style = SpanStyle(color = Color.Green, fontSize = 50.sp)){
+//                        append("J")
+//                    }
+//
+//                    append("etpack ")
+//
+//                    withStyle(style = SpanStyle(color = Color.Green, fontSize = 50.sp)){
+//                        append("C")
+//                    }
+//
+//                    append("ompose")
+//                },
+//                color = Color.White,
+//                fontSize = 30.sp,
+//                textDecoration = TextDecoration.Underline)
+//            }
         }
     }
 }
+
+
 
 
 
