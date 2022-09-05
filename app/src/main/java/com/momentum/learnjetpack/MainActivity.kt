@@ -1,6 +1,7 @@
 package com.momentum.learnjetpack
 
 import android.os.Bundle
+import android.text.style.BackgroundColorSpan
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -37,22 +38,24 @@ class MainActivity : ComponentActivity() {
             }
             val scope = rememberCoroutineScope()
             Scaffold(modifier = Modifier.fillMaxWidth(), scaffoldState = scaffoldState) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 30.dp))
+                {
                     TextField(
                         value = textFieldState,
-                        label = {
-                            Text(text = "Enter your name")
-                        },
-                        onValueChange = {
-                            textFieldState = it
-                        },
+                        label = { Text(text = "Enter your name") },
+                        onValueChange = { textFieldState = it },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Button(onClick = {
+                    Button(colors = ButtonDefaults.buttonColors(backgroundColor = Color.Yellow), onClick = {
                         scope.launch {
                             if (textFieldState.isEmpty()){
                                 scaffoldState.snackbarHostState.showSnackbar("Ekteb esmak ya 3m elnas", "3enya", SnackbarDuration.Short)
@@ -61,7 +64,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }) {
-                        Text(text = "Doos hena")
+                        Text(text = "Doos hena", color = Color.Blue, fontSize = 20.sp )
                     }
                 }
             }
